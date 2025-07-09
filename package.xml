@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rosbag2json</name>
+  <version>0.0.0</version>
+  <description>The rosbag2json package</description>
+
+  <maintainer email="d.benders@tudelft.nl">Dennis Benders</maintainer>
+
+  <license>MIT License</license>
+
+  <author>Dennis Benders</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>rospy</exec_depend>
+
+  <export>
+  </export>
+</package>
