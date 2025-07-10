@@ -70,6 +70,41 @@ def eta_to_dict(bag):
     return eta_dict
 
 
+def mpc_interp_data_to_dict(bag):
+    topic_name = "/mpc/rec/interp_data"
+
+    nx = 12
+
+    # Determine number of RK4 states and interpolated states
+    for _, msg, _ in bag.read_messages(topic_name):
+        n_rk4_states = len(msg.rk4_states) // nx
+        n_interp_states = len(msg.interp_states) // nx
+        break
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    rk4_states = np.empty((n_msgs, n_rk4_states, nx))
+    interp_states = np.empty((n_msgs, n_interp_states, nx))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        rk4_states[i, :, :] = np.array(msg.rk4_states).reshape((n_rk4_states, nx))
+        interp_states[i, :, :] = np.array(msg.interp_states).reshape(
+            (n_interp_states, nx)
+        )
+        i = i + 1
+
+    check_duplicated_timestamps(topic_name, t)
+
+    mpc_interp_data_dict = {}
+    mpc_interp_data_dict["t"] = t.tolist()
+    mpc_interp_data_dict["rk4_states"] = rk4_states.tolist()
+    mpc_interp_data_dict["interp_states"] = interp_states.tolist()
+    return mpc_interp_data_dict
+
+
 def odometry_to_dict(bag):
     topic_name = "/falcon/ground_truth/odometry"
 
@@ -227,6 +262,8 @@ if __name__ == "__main__":
                     bag_dict[topic_name] = eta_to_dict(bag)
                 elif topic_name == "/falcon/ground_truth/odometry":
                     bag_dict[topic_name] = odometry_to_dict(bag)
+                elif topic_name == "/mpc/rec/interp_data":
+                    bag_dict[topic_name] = mpc_interp_data_to_dict(bag)
                 elif topic_name == "/step_control":
                     bag_dict[topic_name] = step_control_to_dict(bag)
                 elif topic_name == "/w":
