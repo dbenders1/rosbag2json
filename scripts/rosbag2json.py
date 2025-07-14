@@ -105,6 +105,64 @@ def mpc_interp_data_to_dict(bag):
     return mpc_interp_data_dict
 
 
+def gt_odometry_to_dict(bag):
+    topic_name = "/falcon/ground_truth/odometry"
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    p = np.empty((3, n_msgs))
+    q = np.empty((4, n_msgs))
+    v = np.empty((3, n_msgs))
+    wb = np.empty((3, n_msgs))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        p[:, i] = np.array(
+            [
+                msg.pose.pose.position.x,
+                msg.pose.pose.position.y,
+                msg.pose.pose.position.z,
+            ]
+        )
+        q[:, i] = np.array(
+            [
+                msg.pose.pose.orientation.w,
+                msg.pose.pose.orientation.x,
+                msg.pose.pose.orientation.y,
+                msg.pose.pose.orientation.z,
+            ]
+        )
+        v[:, i] = np.array(
+            [
+                msg.twist.twist.linear.x,
+                msg.twist.twist.linear.y,
+                msg.twist.twist.linear.z,
+            ]
+        )
+        wb[:, i] = np.array(
+            [
+                msg.twist.twist.angular.x,
+                msg.twist.twist.angular.y,
+                msg.twist.twist.angular.z,
+            ]
+        )
+        i = i + 1
+
+    # Check for duplicated timestamps
+    check_duplicated_timestamps(topic_name, t)
+
+    # Create dictionary
+    odom_dict = {}
+    odom_dict["t"] = t.tolist()
+    odom_dict["p"] = p.tolist()
+    odom_dict["q"] = q.tolist()
+    odom_dict["v"] = v.tolist()
+    odom_dict["wb"] = wb.tolist()
+    return odom_dict
+
+
 def odometry_to_dict(bag):
     topic_name = "/falcon/odometry"
 
@@ -260,6 +318,8 @@ if __name__ == "__main__":
             if topic_name in supported_topic_names:
                 if topic_name == "/eta":
                     bag_dict[topic_name] = eta_to_dict(bag)
+                elif topic_name == "/falcon/ground_truth/odometry":
+                    bag_dict[topic_name] = gt_odometry_to_dict(bag)
                 elif topic_name == "/falcon/odometry":
                     bag_dict[topic_name] = odometry_to_dict(bag)
                 elif topic_name == "/mpc/rec/interp_data":

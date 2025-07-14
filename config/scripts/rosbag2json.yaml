@@ -24,13 +24,17 @@ recorded_data:
   bag_names:
     [
       2025-07-14_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
-      2025-07-14_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
-      2025-07-14_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_no_meas_noise,
-      2025-07-14_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
     ]
   topic_names: [/step_control, /falcon/odometry, /w, /eta]
   # bag_names: [2025-07-10_sim_falcon_cubic_hermite_interpolation]
   # topic_names: [/mpc/rec/interp_data]
 
 supported_topic_names:
-  [/step_control, /falcon/odometry, /w, /eta, /mpc/rec/interp_data]
+  [
+    /step_control,
+    /falcon/ground_truth/odometry,
+    /falcon/odometry,
+    /w,
+    /eta,
+    /mpc/rec/interp_data,
+  ]
