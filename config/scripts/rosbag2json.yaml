@@ -4,7 +4,7 @@ recorded_data:
   #   [
   #     2025-07-03_gaz_falcon_mpc_model_id_inertia_matrix_dist_no_meas_noise_only_thrust_dragtorque,
   #   ]
-  # topic_names: [/step_control, /falcon/ground_truth/odometry]
+  # topic_names: [/step_control, /falcon/odometry]
   # bag_names:
   #   [
   #     2025-06-27_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_gaz_dist_meas_noise,
@@ -28,9 +28,9 @@ recorded_data:
       2025-07-14_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_no_meas_noise,
       2025-07-14_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
     ]
-  topic_names: [/step_control, /falcon/ground_truth/odometry, /w, /eta]
+  topic_names: [/step_control, /falcon/odometry, /w, /eta]
   # bag_names: [2025-07-10_sim_falcon_cubic_hermite_interpolation]
   # topic_names: [/mpc/rec/interp_data]
 
 supported_topic_names:
-  [/step_control, /falcon/ground_truth/odometry, /w, /eta, /mpc/rec/interp_data]
+  [/step_control, /falcon/odometry, /w, /eta, /mpc/rec/interp_data]

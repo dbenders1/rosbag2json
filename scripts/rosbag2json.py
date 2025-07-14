@@ -106,7 +106,7 @@ def mpc_interp_data_to_dict(bag):
 
 
 def odometry_to_dict(bag):
-    topic_name = "/falcon/ground_truth/odometry"
+    topic_name = "/falcon/odometry"
 
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
@@ -260,7 +260,7 @@ if __name__ == "__main__":
             if topic_name in supported_topic_names:
                 if topic_name == "/eta":
                     bag_dict[topic_name] = eta_to_dict(bag)
-                elif topic_name == "/falcon/ground_truth/odometry":
+                elif topic_name == "/falcon/odometry":
                     bag_dict[topic_name] = odometry_to_dict(bag)
                 elif topic_name == "/mpc/rec/interp_data":
                     bag_dict[topic_name] = mpc_interp_data_to_dict(bag)
