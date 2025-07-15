@@ -25,11 +25,11 @@ recorded_data:
   #   [
   #     2025-07-14_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
   #   ]
-  bag_names:
-    [
-      2025-07-15_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
-      2025-07-15_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
-    ]
+  # bag_names:
+  #   [
+  #     2025-07-15_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
+  #     2025-07-15_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
+  #   ]
   # bag_names:
   #   [
   #     2025-07-15_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
@@ -37,9 +37,13 @@ recorded_data:
   #     2025-07-15_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_cw_dist_meas_noise,
   #     2025-07-15_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_ccw_dist_meas_noise,
   #   ]
-  topic_names: [/step_control, /falcon/odometry, /w, /eta]
-  # bag_names: [2025-07-10_sim_falcon_cubic_hermite_interpolation]
-  # topic_names: [/mpc/rec/interp_data]
+  # topic_names: [/step_control, /falcon/odometry, /w, /eta]
+  bag_names:
+    [
+      2025-07-15_sim_falcon_cubic_hermite_interpolation,
+      2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
+    ]
+  topic_names: [/mpc/rec/interp_data]
 
 supported_topic_names:
   [
