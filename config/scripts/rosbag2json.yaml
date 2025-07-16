@@ -44,7 +44,8 @@ recorded_data:
   #     2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
   #   ]
   # topic_names: [/mpc/rec/interp_data]
-  bag_names: [2025-07-16_sim_falcon_hmpc_no_P_no_dist_K_no_meas_noise_L]
+  # bag_names: [2025-07-16_sim_falcon_hmpc_no_P_no_dist_K_no_meas_noise_L]
+  bag_names: [2025-07-16_sim_falcon_hmpc_no_dist_K_no_meas_noise_L]
   topic_names:
     [
       /falcon/ground_truth/odometry,
