@@ -42,7 +42,7 @@ def check_duplicated_timestamps(topic_name, timestamps):
 def check_topic(bag, topic_name):
     # Check if the topic exists in the bag
     if not bag.get_message_count(topic_name):
-        raise ValueError(f"Topic {topic_name} not found")
+        print(f"Topic {topic_name} not found")
 
 
 def eta_to_dict(bag):
@@ -71,6 +71,9 @@ def eta_to_dict(bag):
             t[i] = msg.header.stamp.to_sec()
             eta[:, i] = np.array(msg.y[:n_eta])
             i = i + 1
+
+        # Round timestamps to time_precision decimal places
+        t = np.round(t, decimals=time_precision)
 
         # Check for duplicated timestamps
         check_duplicated_timestamps(topic_name, t)
@@ -130,6 +133,9 @@ def gt_odometry_to_dict(bag):
         )
         i = i + 1
 
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
+
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
 
@@ -163,6 +169,9 @@ def mpc_current_state_to_dict(bag):
         current_state[i, :] = np.array(msg.array)
         i = i + 1
 
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
+
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
 
@@ -188,6 +197,9 @@ def mpc_header_to_dict(bag, topic_name):
         count_since_start[i] = msg.mpc_header.count_since_start
         count_total[i] = msg.mpc_header.count_total
         i = i + 1
+
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
 
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
@@ -227,6 +239,10 @@ def mpc_interp_data_to_dict(bag):
         )
         i = i + 1
 
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
+
+    # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
 
     mpc_interp_data_dict = {}
@@ -260,6 +276,9 @@ def mpc_predicted_trajectory_to_dict(bag):
                 msg.traj[k * (NU + NX) + NU : k * (NU + NX) + NU + NX]
             )
         i = i + 1
+
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
 
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
@@ -296,6 +315,9 @@ def mpc_reference_trajectory_to_dict(bag):
                 msg.traj[k * (NU + NX) + NU : k * (NU + NX) + NU + NX]
             )
         i = i + 1
+
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
 
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
@@ -356,6 +378,9 @@ def odometry_to_dict(bag):
         )
         i = i + 1
 
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
+
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
 
@@ -392,6 +417,9 @@ def step_control_to_dict(bag):
             ]
         )
         i = i + 1
+
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
 
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
@@ -430,6 +458,9 @@ def w_to_dict(bag):
             w[:, i] = np.array(msg.y[:n_w])
             i = i + 1
 
+        # Round timestamps to time_precision decimal places
+        t = np.round(t, decimals=time_precision)
+
         # Check for duplicated timestamps
         check_duplicated_timestamps(topic_name, t)
 
@@ -456,6 +487,7 @@ if __name__ == "__main__":
     bag_dir = config["recorded_data"]["bag_dir"]
     bag_names = config["recorded_data"]["bag_names"]
     topic_names = config["recorded_data"]["topic_names"]
+    time_precision = config["recorded_data"]["time_precision"]
     supported_topic_names = config["supported_topic_names"]
 
     # Process each topic in each bag and dump to a json file per bag
@@ -467,6 +499,7 @@ if __name__ == "__main__":
 
         # Store data in a dictionary
         bag_dict = {}
+        bag_dict["time_precision"] = time_precision
         for topic_name in topic_names:
             print(f"Processing topic: {topic_name}", end="\r")
             if topic_name in supported_topic_names:

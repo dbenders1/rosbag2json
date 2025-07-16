@@ -52,6 +52,7 @@ recorded_data:
       /mpc/rec/reference_trajectory/0,
       /mpc/rec/predicted_trajectory/0,
     ]
+  time_precision: 5
 
 supported_topic_names:
   [
