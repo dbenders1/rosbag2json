@@ -6,6 +6,9 @@ import numpy as np
 from pathlib import Path
 
 FLOAT_TOL = 1e-6
+N = 10
+NU = 4
+NX = 12
 
 
 def check_duplicated_timestamps(topic_name, timestamps):
@@ -36,8 +39,17 @@ def check_duplicated_timestamps(topic_name, timestamps):
     #     exit(1)
 
 
+def check_topic(bag, topic_name):
+    # Check if the topic exists in the bag
+    if not bag.get_message_count(topic_name):
+        raise ValueError(f"Topic {topic_name} not found")
+
+
 def eta_to_dict(bag):
     topic_name = "/eta"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
 
     # Determine size of eta
     for _, msg, _ in bag.read_messages(topic_name):
@@ -70,43 +82,11 @@ def eta_to_dict(bag):
     return eta_dict
 
 
-def mpc_interp_data_to_dict(bag):
-    topic_name = "/mpc/rec/interp_data"
-
-    nx = 12
-
-    # Determine number of RK4 states and interpolated states
-    for _, msg, _ in bag.read_messages(topic_name):
-        n_rk4_states = len(msg.rk4_states) // nx
-        n_interp_states = len(msg.interp_states) // nx
-        break
-
-    # Read messages from the bag
-    n_msgs = bag.get_message_count(topic_name)
-    t = np.empty(n_msgs)
-    rk4_states = np.empty((n_msgs, n_rk4_states, nx))
-    interp_states = np.empty((n_msgs, n_interp_states, nx))
-
-    i = 0
-    for _, msg, _ in bag.read_messages(topic_name):
-        t[i] = msg.header.stamp.to_sec()
-        rk4_states[i, :, :] = np.array(msg.rk4_states).reshape((n_rk4_states, nx))
-        interp_states[i, :, :] = np.array(msg.interp_states).reshape(
-            (n_interp_states, nx)
-        )
-        i = i + 1
-
-    check_duplicated_timestamps(topic_name, t)
-
-    mpc_interp_data_dict = {}
-    mpc_interp_data_dict["t"] = t.tolist()
-    mpc_interp_data_dict["rk4_states"] = rk4_states.tolist()
-    mpc_interp_data_dict["interp_states"] = interp_states.tolist()
-    return mpc_interp_data_dict
-
-
 def gt_odometry_to_dict(bag):
     topic_name = "/falcon/ground_truth/odometry"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
 
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
@@ -163,8 +143,176 @@ def gt_odometry_to_dict(bag):
     return odom_dict
 
 
+def mpc_current_state_to_dict(bag):
+    topic_name = "/mpc/rec/current_state"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
+    # Read MPC header
+    mpc_header_dict = mpc_header_to_dict(bag, topic_name)
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    current_state = np.empty((n_msgs, NX))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        current_state[i, :] = np.array(msg.array)
+        i = i + 1
+
+    # Check for duplicated timestamps
+    check_duplicated_timestamps(topic_name, t)
+
+    # Create dictionary
+    current_state_dict = {}
+    current_state_dict["current_state"] = current_state.tolist()
+    current_state_dict.update(mpc_header_dict)
+    return current_state_dict
+
+
+def mpc_header_to_dict(bag, topic_name):
+    # Read MPC header from topic_name in bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    count_since_reset = np.empty(n_msgs, dtype=int)
+    count_since_start = np.empty(n_msgs, dtype=int)
+    count_total = np.empty(n_msgs, dtype=int)
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.mpc_header.t_start.to_sec()
+        count_since_reset[i] = msg.mpc_header.count_since_reset
+        count_since_start[i] = msg.mpc_header.count_since_start
+        count_total[i] = msg.mpc_header.count_total
+        i = i + 1
+
+    # Check for duplicated timestamps
+    check_duplicated_timestamps(topic_name, t)
+
+    mpc_header_dict = {}
+    mpc_header_dict["t"] = t.tolist()
+    mpc_header_dict["count_since_reset"] = count_since_reset.tolist()
+    mpc_header_dict["count_since_start"] = count_since_start.tolist()
+    mpc_header_dict["count_total"] = count_total.tolist()
+    return mpc_header_dict
+
+
+def mpc_interp_data_to_dict(bag):
+    topic_name = "/mpc/rec/interp_data"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
+    # Determine number of RK4 states and interpolated states
+    for _, msg, _ in bag.read_messages(topic_name):
+        n_rk4_states = len(msg.rk4_states) // NX
+        n_interp_states = len(msg.interp_states) // NX
+        break
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    rk4_states = np.empty((n_msgs, n_rk4_states, NX))
+    interp_states = np.empty((n_msgs, n_interp_states, NX))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        rk4_states[i, :, :] = np.array(msg.rk4_states).reshape((n_rk4_states, NX))
+        interp_states[i, :, :] = np.array(msg.interp_states).reshape(
+            (n_interp_states, NX)
+        )
+        i = i + 1
+
+    check_duplicated_timestamps(topic_name, t)
+
+    mpc_interp_data_dict = {}
+    mpc_interp_data_dict["t"] = t.tolist()
+    mpc_interp_data_dict["rk4_states"] = rk4_states.tolist()
+    mpc_interp_data_dict["interp_states"] = interp_states.tolist()
+    return mpc_interp_data_dict
+
+
+def mpc_predicted_trajectory_to_dict(bag):
+    topic_name = "/mpc/rec/predicted_trajectory/0"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
+    # Read MPC header
+    mpc_header_dict = mpc_header_to_dict(bag, topic_name)
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    u_pred = np.empty((n_msgs, N + 1, NU))
+    x_pred = np.empty((n_msgs, N + 1, NX))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        for k in range(N + 1):
+            u_pred[i, k, :] = np.array(msg.traj[k * (NU + NX) : k * (NU + NX) + NU])
+            x_pred[i, k, :] = np.array(
+                msg.traj[k * (NU + NX) + NU : k * (NU + NX) + NU + NX]
+            )
+        i = i + 1
+
+    # Check for duplicated timestamps
+    check_duplicated_timestamps(topic_name, t)
+
+    # Create dictionary
+    predicted_trajectory_dict = {}
+    predicted_trajectory_dict["u_pred"] = u_pred.tolist()
+    predicted_trajectory_dict["x_pred"] = x_pred.tolist()
+    predicted_trajectory_dict.update(mpc_header_dict)
+    return predicted_trajectory_dict
+
+
+def mpc_reference_trajectory_to_dict(bag):
+    topic_name = "/mpc/rec/reference_trajectory/0"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
+    # Read MPC header
+    mpc_header_dict = mpc_header_to_dict(bag, topic_name)
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    u_ref = np.empty((n_msgs, N + 1, NU))
+    x_ref = np.empty((n_msgs, N + 1, NX))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        for k in range(N + 1):
+            u_ref[i, k, :] = np.array(msg.traj[k * (NU + NX) : k * (NU + NX) + NU])
+            x_ref[i, k, :] = np.array(
+                msg.traj[k * (NU + NX) + NU : k * (NU + NX) + NU + NX]
+            )
+        i = i + 1
+
+    # Check for duplicated timestamps
+    check_duplicated_timestamps(topic_name, t)
+
+    # Create dictionary
+    reference_trajectory_dict = {}
+    reference_trajectory_dict["u_ref"] = u_ref.tolist()
+    reference_trajectory_dict["x_ref"] = x_ref.tolist()
+    reference_trajectory_dict.update(mpc_header_dict)
+    return reference_trajectory_dict
+
+
 def odometry_to_dict(bag):
     topic_name = "/falcon/odometry"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
 
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
@@ -224,6 +372,9 @@ def odometry_to_dict(bag):
 def step_control_to_dict(bag):
     topic_name = "/step_control"
 
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
     t = np.empty(n_msgs)
@@ -254,6 +405,9 @@ def step_control_to_dict(bag):
 
 def w_to_dict(bag):
     topic_name = "/w"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
 
     # Determine size of w
     for _, msg, _ in bag.read_messages(topic_name):
@@ -322,8 +476,14 @@ if __name__ == "__main__":
                     bag_dict[topic_name] = gt_odometry_to_dict(bag)
                 elif topic_name == "/falcon/odometry":
                     bag_dict[topic_name] = odometry_to_dict(bag)
+                elif topic_name == "/mpc/rec/current_state":
+                    bag_dict[topic_name] = mpc_current_state_to_dict(bag)
                 elif topic_name == "/mpc/rec/interp_data":
                     bag_dict[topic_name] = mpc_interp_data_to_dict(bag)
+                elif topic_name == "/mpc/rec/predicted_trajectory/0":
+                    bag_dict[topic_name] = mpc_predicted_trajectory_to_dict(bag)
+                elif topic_name == "/mpc/rec/reference_trajectory/0":
+                    bag_dict[topic_name] = mpc_reference_trajectory_to_dict(bag)
                 elif topic_name == "/step_control":
                     bag_dict[topic_name] = step_control_to_dict(bag)
                 elif topic_name == "/w":

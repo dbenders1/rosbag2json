@@ -38,12 +38,20 @@ recorded_data:
   #     2025-07-15_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_ccw_dist_meas_noise,
   #   ]
   # topic_names: [/step_control, /falcon/odometry, /w, /eta]
-  bag_names:
+  # bag_names:
+  #   [
+  #     2025-07-15_sim_falcon_cubic_hermite_interpolation,
+  #     2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
+  #   ]
+  # topic_names: [/mpc/rec/interp_data]
+  bag_names: [2025-07-16_sim_falcon_hmpc_no_P_no_dist_K_no_meas_noise_L]
+  topic_names:
     [
-      2025-07-15_sim_falcon_cubic_hermite_interpolation,
-      2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
+      /falcon/ground_truth/odometry,
+      /mpc/rec/current_state,
+      /mpc/rec/reference_trajectory/0,
+      /mpc/rec/predicted_trajectory/0,
     ]
-  topic_names: [/mpc/rec/interp_data]
 
 supported_topic_names:
   [
@@ -52,5 +60,8 @@ supported_topic_names:
     /falcon/odometry,
     /w,
     /eta,
+    /mpc/rec/current_state,
     /mpc/rec/interp_data,
+    /mpc/rec/reference_trajectory/0,
+    /mpc/rec/predicted_trajectory/0,
   ]
