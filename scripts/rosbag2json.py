@@ -1,4 +1,5 @@
 import json
+import math
 import rosbag
 import time
 import yaml
@@ -9,6 +10,7 @@ FLOAT_TOL = 1e-6
 N = 10
 NU = 4
 NX = 12
+NY = NX
 
 
 def check_duplicated_timestamps(topic_name, timestamps):
@@ -45,6 +47,33 @@ def check_topic(bag, topic_name):
         print(f"Topic {topic_name} not found")
 
 
+def quaternion_to_zyx_euler(q):
+    """
+    Convert a quaternion into ZYX Euler angles (roll, pitch, yaw)
+    q = [qw, qx, qy, qz]
+    """
+    qw, qx, qy, qz = q
+
+    # Roll (x-axis rotation)
+    sinr_cosp = 2 * (qw * qx + qy * qz)
+    cosr_cosp = 1 - 2 * (qx * qx + qy * qy)
+    roll = math.atan2(sinr_cosp, cosr_cosp)
+
+    # Pitch (y-axis rotation)
+    sinp = 2 * (qw * qy - qz * qx)
+    if abs(sinp) >= 1:
+        pitch = math.copysign(math.pi / 2, sinp)  # use 90 degrees if out of range
+    else:
+        pitch = math.asin(sinp)
+
+    # Yaw (z-axis rotation)
+    siny_cosp = 2 * (qw * qz + qx * qy)
+    cosy_cosp = 1 - 2 * (qy * qy + qz * qz)
+    yaw = math.atan2(siny_cosp, cosy_cosp)
+
+    return roll, pitch, yaw
+
+
 def eta_to_dict(bag):
     topic_name = "/eta"
 
@@ -64,12 +93,12 @@ def eta_to_dict(bag):
         eta = np.array([])
     else:
         t = np.empty(n_msgs)
-        eta = np.empty((n_eta, n_msgs))
+        eta = np.empty((n_msgs, n_eta))
 
         i = 0
         for _, msg, _ in bag.read_messages(topic_name):
             t[i] = msg.header.stamp.to_sec()
-            eta[:, i] = np.array(msg.y[:n_eta])
+            eta[i, :] = np.array(msg.y[:n_eta])
             i = i + 1
 
         # Round timestamps to time_precision decimal places
@@ -94,22 +123,22 @@ def gt_odometry_to_dict(bag):
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
     t = np.empty(n_msgs)
-    p = np.empty((3, n_msgs))
-    q = np.empty((4, n_msgs))
-    v = np.empty((3, n_msgs))
-    wb = np.empty((3, n_msgs))
+    p = np.empty((n_msgs, 3))
+    q = np.empty((n_msgs, 4))
+    v = np.empty((n_msgs, 3))
+    wb = np.empty((n_msgs, 3))
 
     i = 0
     for _, msg, _ in bag.read_messages(topic_name):
         t[i] = msg.header.stamp.to_sec()
-        p[:, i] = np.array(
+        p[i, :] = np.array(
             [
                 msg.pose.pose.position.x,
                 msg.pose.pose.position.y,
                 msg.pose.pose.position.z,
             ]
         )
-        q[:, i] = np.array(
+        q[i, :] = np.array(
             [
                 msg.pose.pose.orientation.w,
                 msg.pose.pose.orientation.x,
@@ -117,14 +146,14 @@ def gt_odometry_to_dict(bag):
                 msg.pose.pose.orientation.z,
             ]
         )
-        v[:, i] = np.array(
+        v[i, :] = np.array(
             [
                 msg.twist.twist.linear.x,
                 msg.twist.twist.linear.y,
                 msg.twist.twist.linear.z,
             ]
         )
-        wb[:, i] = np.array(
+        wb[i, :] = np.array(
             [
                 msg.twist.twist.angular.x,
                 msg.twist.twist.angular.y,
@@ -139,13 +168,18 @@ def gt_odometry_to_dict(bag):
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
 
+    # Convert quaternion to Euler angles
+    eul = np.zeros((q.shape[0], 3))
+    for i in range(q.shape[0]):
+        eul[i, :] = quaternion_to_zyx_euler(q[i, :])
+
+    # Create state vector x
+    x = np.concatenate((p, eul, v, wb), axis=1)
+
     # Create dictionary
     odom_dict = {}
     odom_dict["t"] = t.tolist()
-    odom_dict["p"] = p.tolist()
-    odom_dict["q"] = q.tolist()
-    odom_dict["v"] = v.tolist()
-    odom_dict["wb"] = wb.tolist()
+    odom_dict["x"] = x.tolist()
     return odom_dict
 
 
@@ -339,22 +373,22 @@ def odometry_to_dict(bag):
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
     t = np.empty(n_msgs)
-    p = np.empty((3, n_msgs))
-    q = np.empty((4, n_msgs))
-    v = np.empty((3, n_msgs))
-    wb = np.empty((3, n_msgs))
+    p = np.empty((n_msgs, 3))
+    q = np.empty((n_msgs, 4))
+    v = np.empty((n_msgs, 3))
+    wb = np.empty((n_msgs, 3))
 
     i = 0
     for _, msg, _ in bag.read_messages(topic_name):
         t[i] = msg.header.stamp.to_sec()
-        p[:, i] = np.array(
+        p[i, :] = np.array(
             [
                 msg.pose.pose.position.x,
                 msg.pose.pose.position.y,
                 msg.pose.pose.position.z,
             ]
         )
-        q[:, i] = np.array(
+        q[i, :] = np.array(
             [
                 msg.pose.pose.orientation.w,
                 msg.pose.pose.orientation.x,
@@ -362,14 +396,14 @@ def odometry_to_dict(bag):
                 msg.pose.pose.orientation.z,
             ]
         )
-        v[:, i] = np.array(
+        v[i, :] = np.array(
             [
                 msg.twist.twist.linear.x,
                 msg.twist.twist.linear.y,
                 msg.twist.twist.linear.z,
             ]
         )
-        wb[:, i] = np.array(
+        wb[i, :] = np.array(
             [
                 msg.twist.twist.angular.x,
                 msg.twist.twist.angular.y,
@@ -384,13 +418,18 @@ def odometry_to_dict(bag):
     # Check for duplicated timestamps
     check_duplicated_timestamps(topic_name, t)
 
+    # Convert quaternion to Euler angles
+    eul = np.zeros((q.shape[0], 3))
+    for i in range(q.shape[0]):
+        eul[i, :] = quaternion_to_zyx_euler(q[i, :])
+
+    # Create output vector y
+    y = np.concatenate((p, eul, v, wb), axis=1)
+
     # Create dictionary
     odom_dict = {}
     odom_dict["t"] = t.tolist()
-    odom_dict["p"] = p.tolist()
-    odom_dict["q"] = q.tolist()
-    odom_dict["v"] = v.tolist()
-    odom_dict["wb"] = wb.tolist()
+    odom_dict["y"] = y.tolist()
     return odom_dict
 
 
@@ -403,12 +442,12 @@ def step_control_to_dict(bag):
     # Read messages from the bag
     n_msgs = bag.get_message_count(topic_name)
     t = np.empty(n_msgs)
-    u = np.empty((4, n_msgs))
+    u = np.empty((n_msgs, NU))
 
     i = 0
     for _, msg, _ in bag.read_messages(topic_name):
         t[i] = msg.header.stamp.to_sec()
-        u[:, i] = np.array(
+        u[i, :] = np.array(
             [
                 msg.angular_velocities[0],
                 msg.angular_velocities[1],
@@ -450,12 +489,12 @@ def w_to_dict(bag):
         w = np.array([])
     else:
         t = np.empty(n_msgs)
-        w = np.empty((n_w, n_msgs))
+        w = np.empty((n_msgs, n_w))
 
         i = 0
         for _, msg, _ in bag.read_messages(topic_name):
             t[i] = msg.header.stamp.to_sec()
-            w[:, i] = np.array(msg.y[:n_w])
+            w[i, :] = np.array(msg.y[:n_w])
             i = i + 1
 
         # Round timestamps to time_precision decimal places
