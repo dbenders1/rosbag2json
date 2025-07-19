@@ -43,21 +43,22 @@ recorded_data:
   #     2025-07-15_sim_falcon_cubic_hermite_interpolation,
   #     2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
   #   ]
-  # topic_names: [/mpc/rec/interp_data]
+  bag_names: [2025-07-19_sim_falcon_cubic_hermite_interpolation]
+  topic_names: [/mpc/rec/interp_data]
   # bag_names: [2025-07-16_sim_falcon_hmpc_no_P_no_dist_K_no_meas_noise_L]
   # bag_names: [2025-07-16_sim_falcon_hmpc_no_dist_K_no_meas_noise_L]
   # bag_names: [2025-07-17_sim_falcon_hmpc_no_dist_K_no_meas_noise_L]
   # bag_names: [2025-07-17_sim_falcon_hmpc_Qpos10_no_dist_K_no_meas_noise_L]
   # bag_names:
   #   [2025-07-17_sim_falcon_hmpc_Q1000eye_R1000eye_no_dist_K_no_meas_noise_L]
-  bag_names: [2025-07-18_sim_falcon_hmpc_R1000eye_no_dist_K_no_meas_noise_L]
-  topic_names:
-    [
-      /falcon/ground_truth/odometry,
-      /mpc/rec/current_state,
-      /mpc/rec/reference_trajectory/0,
-      /mpc/rec/predicted_trajectory/0,
-    ]
+  # bag_names: [2025-07-18_sim_falcon_hmpc_R1000eye_no_dist_K_no_meas_noise_L]
+  # topic_names:
+  #   [
+  #     /falcon/ground_truth/odometry,
+  #     /mpc/rec/current_state,
+  #     /mpc/rec/reference_trajectory/0,
+  #     /mpc/rec/predicted_trajectory/0,
+  #   ]
   time_precision: 5
 
 supported_topic_names:
