@@ -59,9 +59,17 @@ recorded_data:
   #     /mpc/rec/reference_trajectory/0,
   #     /mpc/rec/predicted_trajectory/0,
   #   ]
+  # bag_names:
+  #   [
+  #     2025-07-21_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw,
+  #   ]
+  # topic_names: [/mpc/rec/current_state, /mpc/rec/predicted_trajectory/0]
   bag_names:
     [
-      2025-07-21_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw,
+      2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw,
+      2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_ccw,
+      2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_lemniscate_r1_f0dot1_cw,
+      2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_lemniscate_r1_f0dot1_ccw,
     ]
   topic_names: [/mpc/rec/current_state, /mpc/rec/predicted_trajectory/0]
   time_precision: 5
