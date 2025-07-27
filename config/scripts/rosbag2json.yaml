@@ -87,9 +87,13 @@ recorded_data:
   #   [
   #     2025-07-23_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw_new_Lopt,
   #   ]
+  # bag_names:
+  #   [
+  #     2025-07-27_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_u_sin_0dot05_rk4_x_int,
+  #   ]
   bag_names:
     [
-      2025-07-27_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_u_sin_0dot05_rk4_x_int,
+      2025-07-27_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_from_xinit_u_sin_0dot05_rk4_x_int,
     ]
   topic_names:
     [
