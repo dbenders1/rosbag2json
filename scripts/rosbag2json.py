@@ -286,6 +286,42 @@ def mpc_interp_data_to_dict(bag):
     return mpc_interp_data_dict
 
 
+def mpc_nominal_reference_to_dict(bag):
+    topic_name = "/mpc/rec/nominal_reference"
+
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
+    # Read MPC header
+    mpc_header_dict = mpc_header_to_dict(bag, topic_name)
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    t = np.empty(n_msgs)
+    u_ref = np.empty((n_msgs, NU))
+    x_ref = np.empty((n_msgs, NX))
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        t[i] = msg.header.stamp.to_sec()
+        u_ref[i, :] = np.array(msg.traj[:NU])
+        x_ref[i, :] = np.array(msg.traj[NU:])
+        i = i + 1
+
+    # Round timestamps to time_precision decimal places
+    t = np.round(t, decimals=time_precision)
+
+    # Check for duplicated timestamps
+    check_duplicated_timestamps(topic_name, t)
+
+    # Create dictionary
+    nominal_reference_dict = {}
+    nominal_reference_dict["u_ref"] = u_ref.tolist()
+    nominal_reference_dict["x_ref"] = x_ref.tolist()
+    nominal_reference_dict.update(mpc_header_dict)
+    return nominal_reference_dict
+
+
 def mpc_predicted_trajectory_to_dict(bag):
     topic_name = "/mpc/rec/predicted_trajectory/0"
 
@@ -552,6 +588,8 @@ if __name__ == "__main__":
                     bag_dict[topic_name] = mpc_current_state_to_dict(bag)
                 elif topic_name == "/mpc/rec/interp_data":
                     bag_dict[topic_name] = mpc_interp_data_to_dict(bag)
+                elif topic_name == "/mpc/rec/nominal_reference":
+                    bag_dict[topic_name] = mpc_nominal_reference_to_dict(bag)
                 elif topic_name == "/mpc/rec/predicted_trajectory/0":
                     bag_dict[topic_name] = mpc_predicted_trajectory_to_dict(bag)
                 elif topic_name == "/mpc/rec/reference_trajectory/0":
