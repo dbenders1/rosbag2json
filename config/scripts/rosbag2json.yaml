@@ -41,7 +41,9 @@ recorded_data:
   #   [2025-07-22_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot2_cw]
   # bag_names:
   #   [2025-07-22_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw]
-  # topic_names: [/step_control, /falcon/odometry, /w, /eta]
+  bag_names:
+    [2025-07-28_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw]
+  topic_names: [/step_control, /falcon/odometry, /w, /eta]
   # bag_names:
   #   [
   #     2025-07-15_sim_falcon_cubic_hermite_interpolation,
@@ -99,17 +101,17 @@ recorded_data:
   #   [
   #     2025-07-28_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_from_xhover_in_eps_ball_u_sin_0dot05_rk4_x_int,
   #   ]
-  bag_names:
-    [
-      2025-07-28_sim_dist_meas_noise_falcon_determine_w_bar_c_epsilon_circle_r1_f0dot1_cw_new_Lopt,
-    ]
-  topic_names:
-    [
-      /falcon/ground_truth/odometry,
-      /mpc/rec/current_state,
-      /mpc/rec/nominal_reference,
-      /mpc/rec/predicted_trajectory/0,
-    ]
+  # bag_names:
+  #   [
+  #     2025-07-28_sim_dist_meas_noise_falcon_determine_w_bar_c_epsilon_circle_r1_f0dot1_cw_new_Lopt,
+  #   ]
+  # topic_names:
+  #   [
+  #     /falcon/ground_truth/odometry,
+  #     /mpc/rec/current_state,
+  #     /mpc/rec/nominal_reference,
+  #     /mpc/rec/predicted_trajectory/0,
+  #   ]
   time_precision: 5
 
 supported_topic_names:
