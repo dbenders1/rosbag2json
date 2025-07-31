@@ -400,6 +400,43 @@ def mpc_reference_trajectory_to_dict(bag):
     return reference_trajectory_dict
 
 
+def obs_to_dict(bag, topic_name):
+    # Check if the topic exists in the bag
+    check_topic(bag, topic_name)
+
+    # Read messages from the bag
+    n_msgs = bag.get_message_count(topic_name)
+    p = np.empty(3)
+    q = np.empty(4)
+
+    i = 0
+    for _, msg, _ in bag.read_messages(topic_name):
+        if i == 0:
+            p = np.array(
+                [msg.pose.position.x, msg.pose.position.y, msg.pose.position.z]
+            )
+            q = np.array(
+                [
+                    msg.pose.orientation.w,
+                    msg.pose.orientation.x,
+                    msg.pose.orientation.y,
+                    msg.pose.orientation.z,
+                ]
+            )
+            i = i + 1
+        else:
+            break
+
+    # Convert quaternion to Euler angles
+    eul = np.array(quaternion_to_zyx_euler(q))
+
+    # Create dictionary
+    obs_dict = {}
+    obs_dict["p"] = p.tolist()
+    obs_dict["eul"] = eul.tolist()
+    return obs_dict
+
+
 def odometry_to_dict(bag):
     topic_name = "/falcon/odometry"
 
@@ -584,6 +621,8 @@ if __name__ == "__main__":
                     bag_dict[topic_name] = gt_odometry_to_dict(bag)
                 elif topic_name == "/falcon/odometry":
                     bag_dict[topic_name] = odometry_to_dict(bag)
+                elif "/grid/obs/rec/" in topic_name:
+                    bag_dict[topic_name] = obs_to_dict(bag, topic_name)
                 elif topic_name == "/mpc/rec/current_state":
                     bag_dict[topic_name] = mpc_current_state_to_dict(bag)
                 elif topic_name == "/mpc/rec/interp_data":

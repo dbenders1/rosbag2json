@@ -64,14 +64,14 @@ recorded_data:
   # bag_names:
   #   [2025-07-17_sim_falcon_hmpc_Q1000eye_R1000eye_no_dist_K_no_meas_noise_L]
   # bag_names: [2025-07-18_sim_falcon_hmpc_R1000eye_no_dist_K_no_meas_noise_L]
-  bag_names: [2025-07-29_gaz_meas_noise_falcon_check_tmpc_cost_rohmpc]
-  topic_names:
-    [
-      /falcon/ground_truth/odometry,
-      /mpc/rec/current_state,
-      /mpc/rec/reference_trajectory/0,
-      /mpc/rec/predicted_trajectory/0,
-    ]
+  # bag_names: [2025-07-29_gaz_meas_noise_falcon_check_tmpc_cost_rohmpc]
+  # topic_names:
+  #   [
+  #     /falcon/ground_truth/odometry,
+  #     /mpc/rec/current_state,
+  #     /mpc/rec/reference_trajectory/0,
+  #     /mpc/rec/predicted_trajectory/0,
+  #   ]
   # bag_names:
   #   [
   #     2025-07-21_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw,
@@ -137,6 +137,18 @@ recorded_data:
   #     /mpc/rec/nominal_reference,
   #     /mpc/rec/predicted_trajectory/0,
   #   ]
+  # bag_names: [2025-07-29_gaz_meas_noise_falcon_-1_-1_to_0_0]
+  # bag_names: [2025-07-31_gaz_meas_noise_falcon_-1_-1_to_0_0]
+  bag_names: [2025-07-31_gaz_meas_noise_falcon_-1dot5_-0dot5_to_-0dot5_-0dot5]
+  topic_names:
+    [
+      /falcon/ground_truth/odometry,
+      /grid/obs/rec/rectangle2x1_0,
+      /grid/obs/rec/rectangle2x1_1,
+      /mpc/rec/current_state,
+      /mpc/rec/reference_trajectory/0,
+      /mpc/rec/predicted_trajectory/0,
+    ]
   time_precision: 5
 
 supported_topic_names:
@@ -144,6 +156,8 @@ supported_topic_names:
     /eta,
     /falcon/ground_truth/odometry,
     /falcon/odometry,
+    /grid/obs/rec/rectangle2x1_0,
+    /grid/obs/rec/rectangle2x1_1,
     /mpc/rec/current_state,
     /mpc/rec/interp_data,
     /mpc/rec/nominal_reference,
