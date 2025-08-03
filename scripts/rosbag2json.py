@@ -322,8 +322,8 @@ def mpc_nominal_reference_to_dict(bag):
     return nominal_reference_dict
 
 
-def mpc_predicted_trajectory_to_dict(bag):
-    topic_name = "/mpc/rec/predicted_trajectory/0"
+def mpc_predicted_trajectory_to_dict(bag, layer_idx):
+    topic_name = f"/mpc/rec/predicted_trajectory/{layer_idx}"
 
     # Check if the topic exists in the bag
     check_topic(bag, topic_name)
@@ -630,7 +630,9 @@ if __name__ == "__main__":
                 elif topic_name == "/mpc/rec/nominal_reference":
                     bag_dict[topic_name] = mpc_nominal_reference_to_dict(bag)
                 elif topic_name == "/mpc/rec/predicted_trajectory/0":
-                    bag_dict[topic_name] = mpc_predicted_trajectory_to_dict(bag)
+                    bag_dict[topic_name] = mpc_predicted_trajectory_to_dict(bag, 0)
+                elif topic_name == "/mpc/rec/predicted_trajectory/1":
+                    bag_dict[topic_name] = mpc_predicted_trajectory_to_dict(bag, 1)
                 elif topic_name == "/mpc/rec/reference_trajectory/0":
                     bag_dict[topic_name] = mpc_reference_trajectory_to_dict(bag)
                 elif topic_name == "/step_control":
