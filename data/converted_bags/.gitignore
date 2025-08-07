@@ -1,1 +1,7 @@
 *.json
+
+# Do not ignore pre-generated json files to determine model mismatch
+!traj_circle_r1_f0dot3_cw.json
+!traj_circle_r1_f0dot3_ccw.json
+!traj_lemniscate_r1_f0dot3_cw.json
+!traj_lemniscate_r1_f0dot3_ccw.json
