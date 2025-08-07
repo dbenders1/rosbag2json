@@ -6,10 +6,10 @@ recorded_data:
   # Bag files to determine model mismatch below
   bag_names:
     [
-      traj_circle_r1_f0dot3_cw,
-      traj_circle_r1_f0dot3_ccw,
-      traj_lemniscate_r1_f0dot3_cw,
-      traj_lemniscate_r1_f0dot3_ccw,
+      2025-08-07_gaz_falcon_model_mismatch_traj_circle_r1_f0dot3_cw,
+      2025-08-07_gaz_falcon_model_mismatch_traj_circle_r1_f0dot3_ccw,
+      2025-08-07_gaz_falcon_model_mismatch_traj_lemniscate_r1_f0dot3_cw,
+      2025-08-07_gaz_falcon_model_mismatch_traj_lemniscate_r1_f0dot3_ccw,
     ]
   topic_names: [/step_control, /falcon/odometry, /w, /eta]
 
