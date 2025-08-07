@@ -2,169 +2,17 @@ recorded_data:
   bag_dir: /media/storage/Downloads/agisim/bags
   # bag_names:
   #   [
-  #     2025-07-03_gaz_falcon_mpc_model_id_inertia_matrix_dist_no_meas_noise_only_thrust_dragtorque,
+  #     2025-07-19_sim_falcon_cubic_hermite_interpolation,
+  #     2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
   #   ]
-  # topic_names: [/step_control, /falcon/odometry]
-  # bag_names:
-  #   [
-  #     2025-06-27_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_gaz_dist_meas_noise,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-07_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
-  #     2025-07-07_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_ccw_dist_meas_noise,
-  #     2025-07-08_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_cw_dist_meas_noise,
-  #     2025-07-08_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_ccw_dist_meas_noise,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-09_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
-  #     2025-07-09_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-14_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-15_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_no_dist_no_meas_noise,
-  #     2025-07-15_sim_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-15_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw_dist_meas_noise,
-  #     2025-07-15_gaz_falcon_mpc_model_mismatch_circle_r1_f0dot1_ccw_dist_meas_noise,
-  #     2025-07-15_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_cw_dist_meas_noise,
-  #     2025-07-15_gaz_falcon_mpc_model_mismatch_lemniscate_r1_f0dot1_ccw_dist_meas_noise,
-  #   ]
-  # bag_names:
-  #   [2025-07-22_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot2_cw]
-  # bag_names:
-  #   [2025-07-22_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw]
-  # bag_names:
-  #   [2025-07-28_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw]
-  # bag_names:
-  #   [
-  #     2025-07-28_sim_dist_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot1_cw,
-  #   ]
-  # bag_names:
-  #   [2025-07-29_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw]
-  # bag_names:
-  #   [2025-08-01_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw]
-  # bag_names:
-  #   [
-  #     2025-08-01_gaz_meas_noise_div100_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw,
-  #   ]
-  # bag_names:
-  #   [2025-08-01_gaz_meas_noise_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw]
-  # bag_names:
-  #   [
-  #     2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_lemniscate_r1_f0dot3_cw,
-  #   ]
+  # topic_names: [/mpc/rec/interp_data]
   # bag_names: [2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw,
   #   2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_circle_r1_f0dot3_ccw,
   #   2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_lemniscate_r1_f0dot3_cw,
   #   2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_lemniscate_r1_f0dot3_ccw]
   # topic_names: [/step_control, /falcon/odometry, /w, /eta]
-  # bag_names:
-  #   [
-  #     2025-07-15_sim_falcon_cubic_hermite_interpolation,
-  #     2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
-  #   ]
-  # bag_names: [2025-07-19_sim_falcon_cubic_hermite_interpolation]
-  # topic_names: [/mpc/rec/interp_data]
-  # bag_names: [2025-07-16_sim_falcon_hmpc_no_P_no_dist_K_no_meas_noise_L]
-  # bag_names: [2025-07-16_sim_falcon_hmpc_no_dist_K_no_meas_noise_L]
-  # bag_names: [2025-07-17_sim_falcon_hmpc_no_dist_K_no_meas_noise_L]
-  # bag_names: [2025-07-17_sim_falcon_hmpc_Qpos10_no_dist_K_no_meas_noise_L]
-  # bag_names:
-  #   [2025-07-17_sim_falcon_hmpc_Q1000eye_R1000eye_no_dist_K_no_meas_noise_L]
-  # bag_names: [2025-07-18_sim_falcon_hmpc_R1000eye_no_dist_K_no_meas_noise_L]
-  # bag_names: [2025-07-29_gaz_meas_noise_falcon_check_tmpc_cost_rohmpc]
-  # topic_names:
-  #   [
-  #     /falcon/ground_truth/odometry,
-  #     /mpc/rec/current_state,
-  #     /mpc/rec/reference_trajectory/0,
-  #     /mpc/rec/predicted_trajectory/0,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-21_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw,
-  #   ]
-  # topic_names: [/mpc/rec/current_state, /mpc/rec/predicted_trajectory/0]
-  # bag_names:
-  #   [
-  #     2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw,
-  #     2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_ccw,
-  #     2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_lemniscate_r1_f0dot1_cw,
-  #     2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_lemniscate_r1_f0dot1_ccw,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw_l100,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-22_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw_Lopt,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-23_sim_dist_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot1_cw_new_Lopt,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-27_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_u_sin_0dot05_rk4_x_int,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-27_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_from_xinit_u_sin_0dot05_rk4_x_int,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-28_sim_dist_meas_noise_falcon_determine_w_bar_c_rho_c_ref_from_xhover_in_eps_ball_u_sin_0dot05_rk4_x_int,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-28_sim_dist_meas_noise_falcon_determine_w_bar_c_epsilon_circle_r1_f0dot1_cw_new_Lopt,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-28_sim_dist_not_Ew_meas_noise_falcon_determine_rho_c_w_bar_c_epsilon_ref_u_sin_0dot05_rk4_x_int,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-28_sim_dist_not_Ew_meas_noise_falcon_determine_rho_c_w_bar_c_epsilon_ref_from_xhover_in_eps_ball_u_sin_0dot05_rk4_x_int,
-  #   ]
-  # bag_names:
-  #   [
-  #     2025-07-28_sim_dist_not_Ew_meas_noise_falcon_determine_rho_c_w_bar_c_epsilon_circle_r1_f0dot1_rohmpc,
-  #   ]
-  # bag_names:
-  #   [2025-07-29_gaz_meas_noise_falcon_determine_epsilon_circle_r1_f0dot3_rohmpc]
-  # bag_names:
-  #   [2025-07-29_gaz_meas_noise_falcon_determine_rho_c_circle_r1_f0dot3_rohmpc]
-  # bag_names:
-  #   [2025-07-29_gaz_meas_noise_falcon_determine_w_bar_c_circle_r1_f0dot3_rohmpc]
-  # bag_names:
-  #   [2025-08-01_gaz_meas_noise_falcon_wrel_epsilon_ref_u_sin_0dot12_rk4_x_int]
-  # bag_names:
-  #   [2025-08-01_gaz_meas_noise_falcon_wabs_rho_c_ref_u_sin_0dot12_rk4_x_int]
-  # bag_names:
-  #   [
-  #     2025-08-01_gaz_meas_noise_falcon_wabs_epsilon_w_bar_c_circle_r1_f0dot3_cw,
-  #     2025-08-01_gaz_meas_noise_falcon_wabs_epsilon_w_bar_c_circle_r1_f0dot3_ccw,
-  #     2025-08-01_gaz_meas_noise_falcon_wabs_epsilon_w_bar_c_lemniscate_r1_f0dot3_cw,
-  #     2025-08-01_gaz_meas_noise_falcon_wabs_epsilon_w_bar_c_lemniscate_r1_f0dot3_ccw,
-  #   ]
-  # bag_names:
-  #   [2025-08-04_gaz_meas_noise_falcon_wrel_rho_c_ref_u_sin_0dot12_rk4_x_int]
-  # bag_names:
-  #   [
+  # bag_names: [
+  #     2025-08-04_gaz_meas_noise_falcon_wrel_rho_c_ref_u_sin_0dot12_rk4_x_int
   #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_circle_r1_f0dot3_cw,
   #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_circle_r1_f0dot3_ccw,
   #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_lemniscate_r1_f0dot3_cw,
@@ -177,10 +25,6 @@ recorded_data:
   #     /mpc/rec/nominal_reference,
   #     /mpc/rec/predicted_trajectory/0,
   #   ]
-  # bag_names: [2025-07-29_gaz_meas_noise_falcon_-1_-1_to_0_0]
-  # bag_names: [2025-07-31_gaz_meas_noise_falcon_-1_-1_to_0_0]
-  # bag_names: [2025-07-31_gaz_meas_noise_falcon_-1dot5_-0dot5_to_-0dot5_-0dot5]
-  # bag_names: [2025-08-03_gaz_meas_noise_falcon_-1dot5_-0dot5_to_-0dot5_-0dot5]
   bag_names: [2025-08-04_gaz_meas_noise_falcon_-1dot5_-0dot5_to_-0dot5_-0dot5]
   topic_names:
     [
