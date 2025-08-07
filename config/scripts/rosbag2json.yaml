@@ -1,23 +1,20 @@
 recorded_data:
-  bag_dir: /media/storage/Downloads/agisim/bags
-  # bag_names:
-  #   [
-  #     2025-07-19_sim_falcon_cubic_hermite_interpolation,
-  #     2025-07-15_sim_falcon_cubic_hermite_interpolation_2nd_input,
-  #   ]
+  # Bag files to plot cubic Hermite interpolation data below
+  # bag_names: [TODO]
   # topic_names: [/mpc/rec/interp_data]
-  # bag_names: [2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_circle_r1_f0dot3_cw,
-  #   2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_circle_r1_f0dot3_ccw,
-  #   2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_lemniscate_r1_f0dot3_cw,
-  #   2025-08-01_gaz_meas_noise_div10_falcon_mpc_model_mismatch_lemniscate_r1_f0dot3_ccw]
-  # topic_names: [/step_control, /falcon/odometry, /w, /eta]
-  # bag_names: [
-  #     2025-08-04_gaz_meas_noise_falcon_wrel_rho_c_ref_u_sin_0dot12_rk4_x_int
-  #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_circle_r1_f0dot3_cw,
-  #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_circle_r1_f0dot3_ccw,
-  #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_lemniscate_r1_f0dot3_cw,
-  #     2025-08-04_gaz_meas_noise_falcon_wrel_epsilon_w_bar_c_lemniscate_r1_f0dot3_ccw,
-  #   ]
+
+  # Bag files to determine model mismatch below
+  bag_names:
+    [
+      traj_circle_r1_f0dot3_cw,
+      traj_circle_r1_f0dot3_ccw,
+      traj_lemniscate_r1_f0dot3_cw,
+      traj_lemniscate_r1_f0dot3_ccw,
+    ]
+  topic_names: [/step_control, /falcon/odometry, /w, /eta]
+
+  # Bag files to calibrate tightening below
+  # bag_names: [TODO]
   # topic_names:
   #   [
   #     /falcon/ground_truth/odometry,
@@ -25,17 +22,19 @@ recorded_data:
   #     /mpc/rec/nominal_reference,
   #     /mpc/rec/predicted_trajectory/0,
   #   ]
-  bag_names: [2025-08-04_gaz_meas_noise_falcon_-1dot5_-0dot5_to_-0dot5_-0dot5]
-  topic_names:
-    [
-      /falcon/ground_truth/odometry,
-      /grid/obs/rec/rectangle2x1_0,
-      /grid/obs/rec/rectangle2x1_1,
-      /mpc/rec/current_state,
-      /mpc/rec/predicted_trajectory/0,
-      /mpc/rec/predicted_trajectory/1,
-      /mpc/rec/reference_trajectory/0,
-    ]
+
+  # Bag files to evaluate ROHMPC scheme below
+  # bag_names: [TODO]
+  # topic_names:
+  #   [
+  #     /falcon/ground_truth/odometry,
+  #     /grid/obs/rec/rectangle2x1_0,
+  #     /grid/obs/rec/rectangle2x1_1,
+  #     /mpc/rec/current_state,
+  #     /mpc/rec/predicted_trajectory/0,
+  #     /mpc/rec/predicted_trajectory/1,
+  #     /mpc/rec/reference_trajectory/0,
+  #   ]
   time_precision: 5
 
 supported_topic_names:

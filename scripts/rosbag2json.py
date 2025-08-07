@@ -589,6 +589,7 @@ if __name__ == "__main__":
 
     # User settings
     package_dir = Path(__file__).parents[1]
+    bag_dir = f"{package_dir}/data/recorded_bags"
     json_dir = f"{package_dir}/data/converted_bags"
     config_dir = f"{package_dir}/config"
     config_path = f"{config_dir}/scripts/rosbag2json.yaml"
@@ -596,7 +597,6 @@ if __name__ == "__main__":
     # Read configuration parameters
     with open(config_path) as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
-    bag_dir = config["recorded_data"]["bag_dir"]
     bag_names = config["recorded_data"]["bag_names"]
     topic_names = config["recorded_data"]["topic_names"]
     time_precision = config["recorded_data"]["time_precision"]
