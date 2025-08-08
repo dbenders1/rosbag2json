@@ -12,3 +12,6 @@
 !2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_circle_r1_f0dot3_ccw.bag
 !2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_lemniscate_r1_f0dot3_cw.bag
 !2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_lemniscate_r1_f0dot3_ccw.bag
+
+# Do not ignore the pre-generated bag files to analyze the ROHMPC framework
+!2025-08-08_gaz_falcon_rohmpc.bag
