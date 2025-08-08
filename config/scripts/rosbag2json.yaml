@@ -4,24 +4,31 @@ recorded_data:
   # topic_names: [/mpc/rec/interp_data]
 
   # Bag files to determine model mismatch below
-  bag_names:
-    [
-      2025-08-07_gaz_falcon_model_mismatch_traj_circle_r1_f0dot3_cw,
-      2025-08-07_gaz_falcon_model_mismatch_traj_circle_r1_f0dot3_ccw,
-      2025-08-07_gaz_falcon_model_mismatch_traj_lemniscate_r1_f0dot3_cw,
-      2025-08-07_gaz_falcon_model_mismatch_traj_lemniscate_r1_f0dot3_ccw,
-    ]
-  topic_names: [/step_control, /falcon/odometry, /w, /eta]
+  # bag_names:
+  #   [
+  #     2025-08-07_gaz_falcon_model_mismatch_traj_circle_r1_f0dot3_cw,
+  #     2025-08-07_gaz_falcon_model_mismatch_traj_circle_r1_f0dot3_ccw,
+  #     2025-08-07_gaz_falcon_model_mismatch_traj_lemniscate_r1_f0dot3_cw,
+  #     2025-08-07_gaz_falcon_model_mismatch_traj_lemniscate_r1_f0dot3_ccw,
+  #   ]
+  # topic_names: [/step_control, /falcon/odometry, /w, /eta]
 
   # Bag files to calibrate tightening below
-  # bag_names: [TODO]
-  # topic_names:
-  #   [
-  #     /falcon/ground_truth/odometry,
-  #     /mpc/rec/current_state,
-  #     /mpc/rec/nominal_reference,
-  #     /mpc/rec/predicted_trajectory/0,
-  #   ]
+  # bag_names: [2025-08-08_gaz_falcon_calibrate_rho_c]
+  bag_names:
+    [
+      2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_circle_r1_f0dot3_cw,
+      2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_circle_r1_f0dot3_ccw,
+      2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_lemniscate_r1_f0dot3_cw,
+      2025-08-08_gaz_falcon_calibrate_w_bar_c_epsilon_lemniscate_r1_f0dot3_ccw,
+    ]
+  topic_names:
+    [
+      /falcon/ground_truth/odometry,
+      /mpc/rec/current_state,
+      /mpc/rec/nominal_reference,
+      /mpc/rec/predicted_trajectory/0,
+    ]
 
   # Bag files to evaluate ROHMPC scheme below
   # bag_names: [TODO]
